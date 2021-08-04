@@ -8,38 +8,35 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("")
-//ToDo:在上一行代码("")中填写合适的RestfulApi
+@RequestMapping("/users")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
     @GetMapping("")
-    //ToDo:在上一行代码("")中填写合适的RestfulApi
-    public ResponseEntity getAllUser() {
+    public ResponseEntity<List<User>> getAllUser() {
         return new ResponseEntity<>(userService.getAllUser(), HttpStatus.OK);
     }
 
     @PostMapping("")
-    //ToDo:在上一行代码("")中填写合适的RestfulApi
-    public ResponseEntity addUser(@RequestBody User user) {
+    public ResponseEntity<HttpStatus> addUser(@RequestBody User user) {
         userService.addUser(user);
-        return new ResponseEntity(HttpStatus.CREATED);
+        return ResponseEntity.ok(HttpStatus.CREATED);
     }
 
-    @PutMapping("")
-    //ToDo:在上一行代码("")中填写合适的RestfulApi
-    public ResponseEntity updateUserById(@PathVariable int userId, @RequestBody User user) throws BusinessException {
+    @PutMapping("/{userId}")
+    public ResponseEntity<HttpStatus> updateUserById(@PathVariable int userId, @RequestBody User user) throws BusinessException {
         userService.updateUserById(userId, user);
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
+        return ResponseEntity.ok(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping("")
-    //ToDo:在上一行代码("")中填写合适的RestfulApi
-    public ResponseEntity deleteUserById(@PathVariable int userId) throws BusinessException {
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<HttpStatus> deleteUserById(@PathVariable int userId) throws BusinessException {
         userService.deleteUserById(userId);
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
+        return ResponseEntity.ok(HttpStatus.NO_CONTENT);
     }
 }
